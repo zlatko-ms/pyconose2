@@ -1,0 +1,15 @@
+name: Integration Tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+ 
+permissions:
+  contents: read
+
+jobs:
+  
+  example:
+    uses: ./.github/workflows/it-example.yml
+
+  

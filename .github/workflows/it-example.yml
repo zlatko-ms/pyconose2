@@ -1,0 +1,26 @@
+name: IT JSON Format
+
+on:
+  workflow_call:
+  workflow_dispatch:
+ 
+permissions:
+  contents: read
+
+jobs:
+  it-action-format-json:
+
+    name: JSON Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources for fixtures
+        uses: actions/checkout@v3
+
+      - name: When we fake a test
+        run: |
+          echo "fake test"
+
+      - name: When we get a fake test result
+        run: |
+          echo "fake result"
+  

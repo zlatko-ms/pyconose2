@@ -108,7 +108,7 @@ class TresholdAssesor(object):
         # classes
         ret: bool = True
         for k, v in expected[ParamConstants.CLASSES].items():
-            if not k in found[ParamConstants.CLASSES].keys():
+            if k not in found[ParamConstants.CLASSES].keys():
                 print(f"ERROR : unable to find coverage for class {k}")
                 ret = False
             else:
@@ -121,9 +121,10 @@ class TresholdAssesor(object):
 
 def main():
     params: dict = ParamParser.getParameters(" ".join(sys.argv[1:]))
-    covFile = params[ParamConstants.COVERAGE_FILE]
-    expectedCoverage = ParamParser.getTresholdsMap(params)
-    foundCoverage = CoverageFileReader.getCoverageMap(covFile)
+    print(f"main params = {params}")
+    # covFile = params[ParamConstants.COVERAGE_FILE]
+    # expectedCoverage = ParamParser.getTresholdsMap(params)
+    # foundCoverage = CoverageFileReader.getCoverageMap(covFile)
 
 
 if __name__ == "__main__":

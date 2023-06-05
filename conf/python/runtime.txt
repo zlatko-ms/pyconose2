@@ -1,5 +1,5 @@
 pandas >= 1.5.2
-pandas >= 1.5.2
+lxml >= 4.8.0
 openpyxl >= 3.0.10
 multipledispatch >= 0.6.0
 numpy >= 1.21.5

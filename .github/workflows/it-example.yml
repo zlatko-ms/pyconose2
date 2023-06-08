@@ -1,4 +1,4 @@
-name: IT JSON Format
+name: IT Example
 
 on:
   workflow_call:

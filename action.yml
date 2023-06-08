@@ -2,17 +2,21 @@ name: 'pyconose'
 description: 'Asserts test coverage thresholds form a nose2 coverage file'
 inputs:
   packages:
-    description: 'set of package:treshold statements, where treshold is expessed as an integer between 1 (100%) and 0 (0%)'
+    description: 'set of package:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%). Using a * as package means the treshold applies to all packages'
     required: true
     default: ''
   classes:  
-    description: 'set of class:treshold statements, where treshold is expessed as an integer between 1 (100%) and 0 (0%)'
+    description: 'set of class:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%)'. Using a * as class means the treshold applies to all classes.
     required: true
     default: ''
   coveragefile:  
     description: 'path to the nose2 coverage xml file'
     required: true
     default: './coverage.xml'
+  format:
+    description: 'coverage format. defaults to nose2'
+    required: true
+    default: 'nose2'
 branding:
   icon: 'check-circle'
   color: 'orange'
@@ -20,6 +24,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - format=${{ inputs.format }}
     - coveragefile=${{ inputs.coveragefile }}
     - packages=${{ inputs.packages }}
     - classes=${{ inputs.classes }}

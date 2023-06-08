@@ -3,6 +3,10 @@
 import sys
 import re
 import pandas as pd
+import logging
+from logging import Logger
+
+import nose2
 
 # from itertools import chain, starmap
 # import json
@@ -13,6 +17,7 @@ class ParamConstants(object):
     CLASSES: str = "classes"
     PACKAGES: str = "packages"
     COVERAGE_FILE: str = "coveragefile"
+    FORMAT: str = "format"
 
 
 class ParamParser(object):
@@ -72,6 +77,29 @@ class ParamParser(object):
 
 
 class CoverageFileReader(object):
+    """Base class for parsing coverage file"""
+
+    @classmethod
+    def _getPackagesCoverageMap(cts, filePath: str) -> dict:
+        """returns a dict with package name as key and coverage level as value"""
+        pass
+
+    @classmethod
+    def _getClassesCoverageMap(cts, filePath: str) -> dict:
+        """returns a dict with class name as key and coverage level as value"""
+        pass
+
+    @classmethod
+    def getCoverageMap(cts, filePath: str) -> dict:
+        ret: dict = dict()
+        ret[ParamConstants.CLASSES] = cts._getClassesCoverageMap(filePath)
+        ret[ParamConstants.PACKAGES] = cts._getPackagesCoverageMap(filePath)
+        return ret
+
+
+class Nose2XmlCoverageFileReader(CoverageFileReader):
+    """Nose2 XML coverage file reader"""
+
     @classmethod
     def _getPackagesCoverageMap(cts, filePath: str) -> dict:
         ret: dict = dict()
@@ -85,46 +113,84 @@ class CoverageFileReader(object):
     @classmethod
     def _getClassesCoverageMap(cts, filePath: str) -> dict:
         ret: dict = dict()
-        r = pd.read_xml(
-            "./test/fixtures/unit/coverage1.xml", xpath="./packages/*/classes/*"
-        )
+        r = pd.read_xml(filePath, xpath="./packages/*/classes/*")
         x = r[r["name"] != "__init__.py"]
         y = x[~x["name"].str.startswith("test_")]
         for index, row in y.iterrows():
             ret[row["name"]] = row["line-rate"]
         return ret
 
-    @classmethod
-    def getCoverageMap(cts, filePath: str) -> dict:
-        ret: dict = dict()
-        ret[ParamConstants.CLASSES] = cts._getClassesCoverageMap(filePath)
-        ret[ParamConstants.PACKAGES] = cts._getPackagesCoverageMap(filePath)
-        return ret
 
+class ThresholdChecker(object):
+    logger: Logger = logging.getLogger("ThresholdChecker")
 
-class TresholdAssesor(object):
     @classmethod
-    def assess(cts, expected: dict, found: dict) -> bool:
-        # classes
-        ret: bool = True
-        for k, v in expected[ParamConstants.CLASSES].items():
-            if k not in found[ParamConstants.CLASSES].keys():
-                print(f"ERROR : unable to find coverage for class {k}")
-                ret = False
+    def assertTresholdCategoryLevels(
+        cts, expectedLevels: dict, foundLevels: dict
+    ) -> bool:
+        for expected in expectedLevels:
+            if expected == "*":
+                ## all items must be above tresholds !
+                for found in foundLevels:
+                    if foundLevels[found] < expectedLevels[expected]:
+                        cts.logger.error(
+                            f"{found} coverage is {foundLevels[found]}, below expected {expectedLevels[expected]}"
+                        )
+                        return False
             else:
-                f = found[ParamConstants.CLASSES][k]
-                if f < v:
-                    print(f"ERROR : unable to find coverage for class {k}")
-                    ret = False
-        return ret
+                if expected not in foundLevels:
+                    cts.logger.error(f"{expected} cannot be found in the coverage file")
+                    return False
+                else:
+                    if foundLevels[expected] < expectedLevels[expected]:
+                        cts.logger.error(
+                            f"{expected} coverage is {foundLevels[expected]}, below expected {expectedLevels[expected]}"
+                        )
+                        return False
+        return True
+
+    @classmethod
+    def assertThreshold(cts, expectedDef: dict, foundDef: dict) -> bool:
+        asserted: bool = True
+        # assert class level tresholds, if any defined
+        if ParamConstants.CLASSES in expectedDef.keys():
+            asserted = asserted and cts.assertTresholdCategoryLevels(
+                expectedDef[ParamConstants.CLASSES], foundDef[ParamConstants.CLASSES]
+            )
+        # assert package level tresholds, if any defined
+        if ParamConstants.PACKAGES in expectedDef.keys():
+            asserted = asserted and cts.assertTresholdCategoryLevels(
+                expectedDef[ParamConstants.PACKAGES], foundDef[ParamConstants.PACKAGES]
+            )
+        return asserted
+
+
+class ActionExecutor(object):
+    """Performs internal action orchestration"""
+
+    parsers: dict = {"nose2": Nose2XmlCoverageFileReader}
+
+    @classmethod
+    def assertTresholds(cts, cmdLineParams: str) -> bool:
+        """Asseses test coverage tresholds, returns true if all criterias satisfied, false otherwise"""
+        params: dict = ParamParser.getParameters(cmdLineParams)
+        parser: CoverageFileReader = cts.parsers[params[ParamConstants.FORMAT]]
+        foundCoverage = parser.getCoverageMap(params[ParamConstants.COVERAGE_FILE])
+        expectedCoverage = ParamParser.getTresholdsMap(params)
+        return ThresholdChecker.assertThreshold(expectedCoverage, foundCoverage)
 
 
 def main():
-    params: dict = ParamParser.getParameters(" ".join(sys.argv[1:]))
-    print(f"main params = {params}")
-    # covFile = params[ParamConstants.COVERAGE_FILE]
-    # expectedCoverage = ParamParser.getTresholdsMap(params)
-    # foundCoverage = CoverageFileReader.getCoverageMap(covFile)
+    logging.basicConfig(
+        format="[%(asctime)s] [%(levelname)s] %(message)s", level=logging.INFO
+    )
+    logger: Logger = logging.getLogger("main")
+
+    if not ActionExecutor.assertTresholds(" ".join(sys.argv[1:])):
+        logger.error("One of the checks failed")
+        sys.exit(255)
+    else:
+        logger.info("All checks succesfull")
 
 
 if __name__ == "__main__":

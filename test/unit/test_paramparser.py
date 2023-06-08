@@ -4,7 +4,7 @@ from pyconose import ParamConstants, ParamParser
 
 
 class TestParamParser(unittest.TestCase):
-    paramLineFull: str = "coveragefile=myfile packages=mypack.mysubpack:0.72 mypack.myotherpack:0.84 classes=mypack.mysubpack.myclass:0.86 mypack.myotherpack.myclass:0.91"
+    paramLineFull: str = "format=nose2 coveragefile=myfile packages=mypack.mysubpack:0.72 mypack.myotherpack:0.84 classes=mypack.mysubpack.myclass:0.86 mypack.myotherpack.myclass:0.91"
     paramLineNoTresholds: str = "coveragefile=myfile packages= classes="
     paramLinePackages: str = "packages=mypack.mysubpack:0.72 mypack.myotherpack:0.84"
     paramLineClasses: str = (
@@ -44,6 +44,7 @@ class TestParamParser(unittest.TestCase):
     def test_004_fullParamLine(self) -> None:
         params: dict = ParamParser.getParameters(self.paramLineFull)
         self.assertEquals("myfile", params[ParamConstants.COVERAGE_FILE])
+        self.assertEquals("nose2", params[ParamConstants.FORMAT])
         self.assertEquals(type(params[ParamConstants.CLASSES]), list)
         self.assertEquals(len(params[ParamConstants.CLASSES]), 2)
         self.assertTrue(

@@ -11,7 +11,7 @@ COPY ./pycovcheck.py /pycovcheck.py
 COPY ./entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
-RUN chmod +x /pyconose.py
+RUN chmod +x /pycovcheck.py
 
 # install additional modules
 COPY ./conf/python/runtime.txt /runtime.txt

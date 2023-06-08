@@ -6,7 +6,7 @@ inputs:
     required: true
     default: ''
   classes:  
-    description: 'set of class:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%)'. Using a * as class means the treshold applies to all classes.
+    description: 'set of class:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%)'. Using a * as class means the treshold applies to all classes.'
     required: true
     default: ''
   coveragefile:  

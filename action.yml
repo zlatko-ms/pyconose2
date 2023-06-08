@@ -2,19 +2,19 @@ name: 'pycovcheck'
 description: 'Asserts test coverage thresholds from a python coverage file'
 inputs:
   packages:
-    description: 'set of package:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%). Using a * as package means the treshold applies to all packages'
+    description: 'set of package:treshold statements, where treshold is a percentage expressed as float'
     required: true
     default: ''
   classes:  
-    description: 'set of class:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%)'. Using a * as class means the treshold applies to all classes.'
+    description: 'set of class:treshold statements, where treshold is a percentage expressed as float'
     required: true
     default: ''
   coveragefile:  
-    description: 'path to the nose2 coverage xml file'
+    description: 'path to the python coverage xml file'
     required: true
     default: './coverage.xml'
   format:
-    description: 'coverage format,  defaults to nose2, the only supported for now'
+    description: 'coverage format, defaults to nose2, the only supported format as for now'
     required: true
     default: 'nose2'
 branding:

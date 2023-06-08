@@ -1,6 +1,5 @@
 import unittest
 from pycovcheck import ActionExecutor, ParamConstants
-import logging
 
 
 class TestActionExecutor(unittest.TestCase):

@@ -7,7 +7,7 @@ RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
-COPY ./pyconose.py /pyconose.py
+COPY ./pycovcheck.py /pycovcheck.py
 COPY ./entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh

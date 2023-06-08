@@ -1,6 +1,6 @@
 import unittest
 
-from pyconose import ParamConstants, ParamParser
+from pycovcheck import ParamConstants, ParamParser
 
 
 class TestParamParser(unittest.TestCase):

@@ -2,4 +2,4 @@
 
 # just pass the command line to the python parser 
 params=$(echo $@)
-r=$(/usr/bin/python3 /pyconose.py $params)
+r=$(/usr/bin/python3 /pycovcheck.py $params)

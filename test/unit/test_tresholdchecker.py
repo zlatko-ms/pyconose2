@@ -1,6 +1,6 @@
 import unittest
 
-from pyconose import ThresholdChecker
+from pycovcheck import ThresholdChecker
 
 
 class TestTresholdChecker(unittest.TestCase):

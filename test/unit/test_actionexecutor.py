@@ -1,10 +1,6 @@
 import unittest
-from pyconose import ActionExecutor, ParamConstants
+from pycovcheck import ActionExecutor, ParamConstants
 import logging
-
-logging.basicConfig(
-    format="[%(asctime)s] [%(levelname)s] %(message)s", level=logging.INFO
-)
 
 
 class TestActionExecutor(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from pyconose import Nose2XmlCoverageFileReader, ParamConstants
+from pycovcheck import Nose2XmlCoverageFileReader, ParamConstants
 
 
 class TestCoverageFileReader(unittest.TestCase):

@@ -10,6 +10,6 @@ permissions:
 jobs:
   
   example:
-    uses: ./.github/workflows/it-example.yml
+    uses: ./.github/workflows/it-coverage-classes.yml
 
   

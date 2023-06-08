@@ -1,4 +1,4 @@
-name: 'pyconose'
+name: 'pycovcheck'
 description: 'Asserts test coverage thresholds from a python coverage file'
 inputs:
   packages:
@@ -14,7 +14,7 @@ inputs:
     required: true
     default: './coverage.xml'
   format:
-    description: 'coverage format. defaults to nose2'
+    description: 'coverage format,  defaults to nose2, the only supported for now'
     required: true
     default: 'nose2'
 branding:

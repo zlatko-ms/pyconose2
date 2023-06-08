@@ -1,0 +1,26 @@
+name: IT Class Coverage
+
+on:
+  workflow_call:
+  workflow_dispatch:
+ 
+permissions:
+  contents: read
+
+jobs:
+
+  it-action-coverage-classes:
+
+    name: IT Classes Coverage, Named
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources for fixtures
+        uses: actions/checkout@v3
+
+      - name: Assert coverage of a single class 
+        uses: zlatko-ms/pycovcheck@main
+        with: 
+          coveragefile: ./test/fixtures/unit/coverage1.xml
+          classes:  collections.py:93
+
+  

@@ -1,5 +1,5 @@
 name: 'pyconose'
-description: 'Asserts test coverage thresholds form a nose2 coverage file'
+description: 'Asserts test coverage thresholds from a python coverage file'
 inputs:
   packages:
     description: 'set of package:treshold statements. Treshold is expessed as an integer between 1 (100%) and 0 (0%). Using a * as package means the treshold applies to all packages'

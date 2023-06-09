@@ -1,4 +1,4 @@
-name: IT Class Coverage
+name: IT Package Coverage
 
 on:
   workflow_call:
@@ -11,7 +11,7 @@ jobs:
 
   it-action-coverage-classes:
 
-    name: IT Classes Coverage
+    name: IT Package Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources for fixtures

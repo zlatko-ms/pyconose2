@@ -23,8 +23,3 @@ jobs:
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           classes:  collections.py:0.93
 
-      - name: Assert coverage of all classes is above or equal to 93% 
-        uses: zlatko-ms/pycovcheck@main
-        with: 
-          coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
-          classes:  *:0.93

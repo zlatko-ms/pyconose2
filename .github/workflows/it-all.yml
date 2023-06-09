@@ -9,7 +9,11 @@ permissions:
 
 jobs:
   
-  example:
+  classes:
     uses: ./.github/workflows/it-coverage-classes.yml
+
+  packages:
+    uses: ./.github/workflows/it-coverage-packages.yml
+    
 
   

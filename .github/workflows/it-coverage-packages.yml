@@ -17,14 +17,14 @@ jobs:
       - name: Checkout sources for fixtures
         uses: actions/checkout@v3
 
-      - name: Assert coverage of collections.py is above or equal to 93% 
+      - name: Assert coverage of azbazeliner.pricer package is above or equal to 85% 
         uses: zlatko-ms/pycovcheck@main
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
-          classes:  collections.py:0.93
+          packages:  azbaseliner.pricing:0.85
 
-      - name: Assert coverage of all classes is above or equal to 80% 
+      - name: Assert coverage of all packages is above or equal to 80% 
         uses: zlatko-ms/pycovcheck@main
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
-          classes: :0.8
+          packages: :0.8

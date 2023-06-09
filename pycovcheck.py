@@ -70,50 +70,41 @@ class ParamParser(object):
         return treshs
 
 
-class CoverageFileReader(object):
-    """Base class for parsing coverage file"""
+class CoverageXMLFileReader(object):
+    """Nose2 XML coverage file reader"""
 
     @classmethod
-    def _getPackagesCoverageMap(cts, filePath: str) -> dict:
-        """returns a dict with package name as key and coverage level as value"""
-        pass
-
-    @classmethod
-    def _getClassesCoverageMap(cts, filePath: str) -> dict:
-        """returns a dict with class name as key and coverage level as value"""
-        pass
+    def _acceptEntry(cts, item: any) -> bool:
+        name: str = item.get("name")
+        if name.startswith("test."):
+            return False
+        if name.startswith("."):
+            return False
+        if name.startswith("__init__"):
+            return False
+        return True
 
     @classmethod
     def getCoverageMap(cts, filePath: str) -> dict:
         ret: dict = dict()
-        ret[ParamConstants.CLASSES] = cts._getClassesCoverageMap(filePath)
-        ret[ParamConstants.PACKAGES] = cts._getPackagesCoverageMap(filePath)
-        return ret
+        ret[ParamConstants.PACKAGES] = dict()
+        ret[ParamConstants.CLASSES] = dict()
 
-
-class Nose2XmlCoverageFileReader(CoverageFileReader):
-    """Nose2 XML coverage file reader"""
-
-    @classmethod
-    def _getPackagesCoverageMap(cts, filePath: str) -> dict:
-        ret: dict = dict()
         doc = etree.parse(filePath)
-        packages = doc.xpath("./packages/*")
-        for package in packages:
-            name: str = package.get("name")
-            if not name.startswith("test.") and not name.startswith("."):
-                ret[name] = float(package.get("line-rate"))
-        return ret
 
-    @classmethod
-    def _getClassesCoverageMap(cts, filePath: str) -> dict:
-        ret: dict = dict()
-        doc = etree.parse(filePath)
-        classes = doc.xpath("./packages/*/classes/*")
-        for clazz in classes:
-            name: str = clazz.get("name")
-            if not name.startswith("test_") and not name.startswith("__init__"):
-                ret[name] = float(clazz.get("line-rate"))
+        xpaths = {
+            ParamConstants.PACKAGES: "./packages/*",
+            ParamConstants.CLASSES: "./packages/*/classes/*",
+        }
+
+        for categName, xPath in xpaths.items():
+            items = doc.xpath(xPath)
+            for item in items:
+                if cts._acceptEntry(item):
+                    itemName = item.get("name")
+                    itemCov = item.get("line-rate")
+                    ret[categName][itemName] = float(itemCov)
+
         return ret
 
 
@@ -164,14 +155,13 @@ class ThresholdChecker(object):
 class ActionExecutor(object):
     """Performs internal action orchestration"""
 
-    parsers: dict = {"nose2": Nose2XmlCoverageFileReader}
-
     @classmethod
     def assertTresholds(cts, cmdLineParams: str) -> bool:
         """Asseses test coverage tresholds, returns true if all criterias satisfied, false otherwise"""
         params: dict = ParamParser.getParameters(cmdLineParams)
-        parser: CoverageFileReader = cts.parsers[params[ParamConstants.FORMAT]]
-        foundCoverage = parser.getCoverageMap(params[ParamConstants.COVERAGE_FILE])
+        foundCoverage = CoverageXMLFileReader.getCoverageMap(
+            params[ParamConstants.COVERAGE_FILE]
+        )
         expectedCoverage = ParamParser.getTresholdsMap(params)
         return ThresholdChecker.assertThreshold(expectedCoverage, foundCoverage)
 

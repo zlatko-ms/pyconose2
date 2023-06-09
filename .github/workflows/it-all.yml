@@ -14,6 +14,10 @@ jobs:
 
   packages:
     uses: ./.github/workflows/it-coverage-packages.yml
+
+  mixed:
+    uses: ./.github/workflows/it-coverage-mixed.yml
+
     
 
   

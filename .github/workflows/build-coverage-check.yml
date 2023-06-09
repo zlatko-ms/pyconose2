@@ -16,9 +16,9 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v3
 
-    - name: Setup project build variables
-      run: |
-        for i in `cat conf/buildvars.properties` ; do echo "$i" >> $GITHUB_ENV ; done
+    - uses: zlatko-ms/envarfiles@v3
+      with:
+        paths: conf/buildvars.properties
 
     - name: Setup Python ${{ env.PYTHON_VERSION }} interpreter
       uses: actions/setup-python@v3

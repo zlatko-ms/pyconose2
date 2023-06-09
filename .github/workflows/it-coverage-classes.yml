@@ -21,6 +21,6 @@ jobs:
         uses: zlatko-ms/pycovcheck@main
         with: 
           coveragefile: ./test/fixtures/unit/coverage1.xml
-          classes:  collections.py:93
+          classes:  collections.py:0.93
 
   

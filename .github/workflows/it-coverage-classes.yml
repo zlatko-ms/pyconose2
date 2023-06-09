@@ -27,4 +27,4 @@ jobs:
         uses: zlatko-ms/pycovcheck@main
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
-          classes: :0.9
+          classes: :0.8

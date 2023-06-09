@@ -57,6 +57,8 @@ class ParamParser(object):
             if ":" in p:
                 tokens = p.split(":")
                 name = tokens[0].rstrip().lstrip().strip()
+                if len(name) == 0:
+                    name = "*"
                 val = tokens[1].rstrip().lstrip().strip()
                 ret[name] = float(val)
         return ret

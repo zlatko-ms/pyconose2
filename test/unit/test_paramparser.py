@@ -83,3 +83,20 @@ class TestParamParser(unittest.TestCase):
         self.assertTrue(ParamConstants.PACKAGES in tresholds.keys())
         self.assertEqual(tresholds[ParamConstants.PACKAGES]["mypack.mysubpack"], 0.72)
         self.assertEqual(tresholds[ParamConstants.PACKAGES]["mypack.myotherpack"], 0.84)
+
+    def test_007_wildcarTresholParams(self) -> None:
+        paramLine = "classes=:0.93 packages= :0.97"
+        params: dict = ParamParser.getParameters(paramLine)
+        self.assertTrue(ParamConstants.CLASSES in params.keys())
+        self.assertTrue(ParamConstants.PACKAGES in params.keys())
+        self.assertTrue(":0.93" in params[ParamConstants.CLASSES])
+        self.assertTrue(":0.97" in params[ParamConstants.PACKAGES])
+
+    def test_008_wildcarTresholdMaps(self) -> None:
+        paramLine = "classes=:0.93 packages= :0.97"
+        params: dict = ParamParser.getParameters(paramLine)
+        tresholds: dict = ParamParser.getTresholdsMap(params)
+        self.assertTrue("*" in tresholds[ParamConstants.CLASSES])
+        self.assertEqual(0.93, tresholds[ParamConstants.CLASSES]["*"])
+        self.assertTrue("*" in tresholds[ParamConstants.PACKAGES])
+        self.assertEqual(0.97, tresholds[ParamConstants.PACKAGES]["*"])

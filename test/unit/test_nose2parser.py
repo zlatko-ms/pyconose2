@@ -4,7 +4,7 @@ from pycovcheck import Nose2XmlCoverageFileReader, ParamConstants
 
 
 class TestCoverageFileReader(unittest.TestCase):
-    fixtureFile = "./test/fixtures/unit/coverage1.xml"
+    fixtureFile = "./test/fixtures/unit/nose2/coverage1.xml"
 
     def test_001_classCoverage(self) -> None:
         cov: dict = Nose2XmlCoverageFileReader._getClassesCoverageMap(self.fixtureFile)

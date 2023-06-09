@@ -20,7 +20,7 @@ jobs:
       - name: Assert coverage of a single class 
         uses: zlatko-ms/pycovcheck@main
         with: 
-          coveragefile: ./test/fixtures/unit/coverage1.xml
+          coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           classes:  collections.py:0.93
 
   

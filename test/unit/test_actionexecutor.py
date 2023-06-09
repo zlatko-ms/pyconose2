@@ -3,8 +3,8 @@ from pycovcheck import ActionExecutor, ParamConstants
 
 
 class TestActionExecutor(unittest.TestCase):
-    fixtureFile1 = "./test/fixtures/unit/coverage1.xml"
-    fixtureFile2 = "./test/fixtures/unit/coverage2.xml"
+    fixtureFile1 = "./test/fixtures/unit/nose2/coverage1.xml"
+    fixtureFile2 = "./test/fixtures/unit/nose2/coverage2.xml"
     paramLinePrefix: str = "format=nose2"
     paramPackagesNamedSuccess: str = "azbaseliner.pricing:0.8 azbaseliner.util:0.9"
     paramPackagesWildcarSuccess: str = "*:0.8"

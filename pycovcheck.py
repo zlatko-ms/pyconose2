@@ -2,7 +2,7 @@
 
 import sys
 import re
-import pandas as pd
+from lxml import etree
 import logging
 from logging import Logger
 
@@ -97,21 +97,23 @@ class Nose2XmlCoverageFileReader(CoverageFileReader):
     @classmethod
     def _getPackagesCoverageMap(cts, filePath: str) -> dict:
         ret: dict = dict()
-        r = pd.read_xml(filePath, xpath="./packages/*")
-        x = r[r["name"] != "."]
-        y = x[~x["name"].str.startswith("test.")]
-        for index, row in y.iterrows():
-            ret[row["name"]] = row["line-rate"]
+        doc = etree.parse(filePath)
+        packages = doc.xpath("./packages/*")
+        for package in packages:
+            name: str = package.get("name")
+            if not name.startswith("test.") and not name.startswith("."):
+                ret[name] = float(package.get("line-rate"))
         return ret
 
     @classmethod
     def _getClassesCoverageMap(cts, filePath: str) -> dict:
         ret: dict = dict()
-        r = pd.read_xml(filePath, xpath="./packages/*/classes/*")
-        x = r[r["name"] != "__init__.py"]
-        y = x[~x["name"].str.startswith("test_")]
-        for index, row in y.iterrows():
-            ret[row["name"]] = row["line-rate"]
+        doc = etree.parse(filePath)
+        classes = doc.xpath("./packages/*/classes/*")
+        for clazz in classes:
+            name: str = clazz.get("name")
+            if not name.startswith("test_") and not name.startswith("__init__"):
+                ret[name] = float(clazz.get("line-rate"))
         return ret
 
 

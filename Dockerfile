@@ -2,7 +2,8 @@
 FROM alpine:3.14
 
 # Install python & pip (3.14 repos use python 3.9)
-RUN apk add --update --no-cache python3 py3-pip
+RUN apk add --no-cache --update \
+    python3 py3-pip
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 

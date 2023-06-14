@@ -43,8 +43,8 @@ Use the following in order to assert the coverage of a set of classes :
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           classes:  |
-            collections.py:0.93
-            finder.py:0.97
+            azbaseliner.util.collections.py:0.93
+            azbaseliner.pricing.finder.py:0.97
 ```
 
 **Global class assertion** 
@@ -109,6 +109,6 @@ Use the following to assert both package and classes coverage :
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
           packages: :0.8
           classes: 
-            pricer.py:0.97
-            reporter.py:0.85
+            azbaseliner.pricing.pricer.py:0.97
+            azbaseliner.pricing.reporter.py:0.85
 ```

@@ -8,10 +8,14 @@ class TestActionExecutor(unittest.TestCase):
     paramLinePrefix: str = "format=nose2"
     paramPackagesNamedSuccess: str = "azbaseliner.pricing:0.8 azbaseliner.util:0.9"
     paramPackagesWildcarSuccess: str = "*:0.8"
-    paramClassesNamedSucccess: str = "pricer.py:0.8 collections.py=0.9"
+    paramClassesNamedSucccess: str = (
+        "azbaseliner.pricing.pricer.py:0.8 azbaseliner.util.collections.py=0.9"
+    )
     paramClassesWildcarSuccess: str = "*:0.8"
     paramPackagesNamedFailure: str = "azbaseliner.pricing:0.9 azbaseliner.util:0.9"
-    paramClassesNamedFailure: str = "pricer.py:0.99 collections.py=0.9"
+    paramClassesNamedFailure: str = (
+        "azbaseliner.pricing.pricer.py:0.99 azbaseliner.util.collections.py=0.9"
+    )
     paramPackagesWildcarFailure: str = "*:0.99"
 
     def test_001_successfullNamedCheck(self) -> None:

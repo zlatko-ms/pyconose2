@@ -19,7 +19,16 @@ class TestCoverageFileReader(unittest.TestCase):
         self.assertTrue(ParamConstants.CLASSES in cov.keys())
         self.assertTrue("main.py" in cov[ParamConstants.CLASSES].keys())
         self.assertEqual(cov[ParamConstants.CLASSES]["main.py"], 0.0)
-        self.assertTrue("pricer.py" in cov[ParamConstants.CLASSES].keys())
-        self.assertEqual(cov[ParamConstants.CLASSES]["pricer.py"], 0.8512)
-        self.assertTrue("collections.py" in cov[ParamConstants.CLASSES].keys())
-        self.assertEqual(cov[ParamConstants.CLASSES]["collections.py"], 0.9474)
+        self.assertTrue(
+            "azbaseliner.pricing.pricer.py" in cov[ParamConstants.CLASSES].keys()
+        )
+        self.assertEqual(
+            cov[ParamConstants.CLASSES]["azbaseliner.pricing.pricer.py"], 0.8512
+        )
+        self.assertTrue(
+            "azbaseliner.util.collections.py" in cov[ParamConstants.CLASSES].keys()
+        )
+        self.assertEqual(
+            cov[ParamConstants.CLASSES]["azbaseliner.util.collections.py"],
+            0.9474,
+        )

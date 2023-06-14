@@ -78,6 +78,8 @@ class CoverageXMLFileReader(object):
     @classmethod
     def _acceptEntry(cts, item: any) -> bool:
         name: str = item.get("name")
+        if name.startswith("test_"):
+            return False
         if name.startswith("test."):
             return False
         if name.startswith("."):
@@ -85,6 +87,16 @@ class CoverageXMLFileReader(object):
         if name.startswith("__init__"):
             return False
         return True
+
+    @classmethod
+    def _getGrandParentName(cts, item: any) -> str:
+        if item.getparent() is not None:
+            parent = item.getparent()
+            if parent.getparent() is not None:
+                parentName = parent.getparent().get("name")
+                if parentName is not None:
+                    return parentName
+        return str()
 
     @classmethod
     def getCoverageMap(cts, filePath: str) -> dict:
@@ -104,6 +116,10 @@ class CoverageXMLFileReader(object):
             for item in items:
                 if cts._acceptEntry(item):
                     itemName = item.get("name")
+                    if categName == ParamConstants.CLASSES:
+                        prefixName = cts._getGrandParentName(item)
+                        if len(prefixName) > 0 and prefixName != ".":
+                            itemName = f"{prefixName}.{item.get('name')}"
                     itemCov = item.get("line-rate")
                     ret[categName][itemName] = float(itemCov)
 

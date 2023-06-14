@@ -10,6 +10,10 @@ The coverage xml file can be produced by a number of test frameworks. This actio
 
 ## Usage
 
+### Version
+
+The current stable version is v2.
+
 ### Params
 
 | Name      | Required | Description                                                                                     | Default Value             |
@@ -27,7 +31,7 @@ Use the following in order to assert a given class coverage :
 
 ```yaml
       - name: Assert coverage of collections.py is above or equal to 93% 
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           classes:  collections.py:0.93
@@ -39,7 +43,7 @@ Use the following in order to assert the coverage of a set of classes :
 
 ```yaml
       - name: Assert coverage of collections.py is above or equal to 93% and coverage of finder.py is above or equal to 97%
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           classes:  |
@@ -53,7 +57,7 @@ Use the following in order to assert the coverage level for all the classes, whi
 
 ```yaml
       - name: Assert coverage of all classes is above or equal to 80% 
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
           classes: :0.8
@@ -65,7 +69,7 @@ Use the following in order to assert a given package coverage  :
 
 ```yaml
       - name: Assert coverage of azbazeliner.pricer package is above 85%
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           packages:  azbaseliner.pricing:0.85
@@ -77,7 +81,7 @@ Use the following in order to assert a the coverage of several packages   :
 
 ```yaml
       - name: Assert coverage of azbazeliner.pricer package is above 07% and azbazliner.report is above 85%
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage1.xml
           packages: |
@@ -91,7 +95,7 @@ Use the following to assert all packages coverage :
 
 ```yaml
       - name: Assert coverage of all packages is above or equal to 80% 
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
           packages: :0.8
@@ -104,7 +108,7 @@ Use the following to assert both package and classes coverage :
 
 ```yaml
       - name: Assert coverage of all packages is above or equal to 80% and make sure that the pricer class has at least 97% of coverage while reporter class has at least 85% coverage
-        uses: zlatko-ms/pycovcheck@v1
+        uses: zlatko-ms/pycovcheck@v2
         with: 
           coveragefile: ./test/fixtures/unit/nose2/coverage2.xml
           packages: :0.8
